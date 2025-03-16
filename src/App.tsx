@@ -64,302 +64,464 @@ const ClassList: React.FC = () => {
 
   // 模拟已完成填写的学生数量
   const getCompletedCount = (classId: number) => {
-    // 随机生成已完成的学生数量，实际应从API获取
     return Math.floor(Math.random() * classData.find(c => c.id === classId)!.count);
   };
 
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
-      <Paper 
-        elevation={0} 
-        sx={{ 
-          p: 3, 
-          my: 3,
-          bgcolor: 'rgba(255, 255, 255, 0.9)',
-          borderRadius: '16px',
-          backdropFilter: 'blur(10px)',
-          boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.07)'
-        }}
-      >
+    <Box sx={{ 
+      height: '100vh', 
+      display: 'flex', 
+      flexDirection: 'column',
+      overflow: 'hidden'
+    }}>
+      {/* 顶部栏 */}
+      <Box sx={{ 
+        p: 2, 
+        borderBottom: '1px solid rgba(0,0,0,0.12)',
+        bgcolor: '#fff',
+        position: 'sticky',
+        top: 0,
+        zIndex: 1000
+      }}>
         <Typography 
-          variant="h4" 
-          align="center" 
+          variant="h6" 
           sx={{ 
-            mb: 3, 
             color: '#1d1d1f', 
-            fontWeight: 600,
-            fontSize: '24px',
-            letterSpacing: '-0.5px'
+            fontWeight: 500,
+            fontSize: '20px',
+            mb: 2
           }}
         >
           班级列表
         </Typography>
-        
-        {/* 日期选择器 */}
-        <Box sx={{ mb: 4, display: 'flex', justifyContent: 'center' }}>
-          <TextField
-            label="选择日期"
-            type="date"
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-            sx={{ width: 220 }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </Box>
-        
-        {/* 班级分组列表 */}
-        <Box sx={{ mb: 4 }}>
-          <Accordion defaultExpanded>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography sx={{ fontWeight: 500 }}>小小班 ({tinyClasses.length}个班)</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Grid container spacing={2}>
-                {tinyClasses.map((classItem) => {
-                  const completedCount = getCompletedCount(classItem.id);
-                  return (
-                    <Grid item xs={12} sm={6} md={4} key={classItem.id}>
-                      <Button
-                        component={Link}
-                        to={`/class-students/${classItem.id}`}
-                        variant="outlined"
-                        fullWidth
-                        sx={{
-                          p: 2,
-                          borderRadius: '12px',
-                          borderColor: 'rgba(0, 0, 0, 0.1)',
-                          color: '#1d1d1f',
-                          justifyContent: 'flex-start',
-                          textAlign: 'left',
-                          '&:hover': {
-                            borderColor: '#06c',
-                            bgcolor: 'rgba(0, 122, 255, 0.05)',
-                          },
-                        }}
-                      >
-                        <Box sx={{ width: '100%' }}>
-                          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                            <Typography variant="h6" sx={{ fontSize: '16px', fontWeight: 500 }}>
-                              {classItem.name}
-                            </Typography>
-                            <Chip 
-                              label={`${completedCount}/${classItem.count}`} 
-                              size="small" 
-                              color={completedCount === classItem.count ? "success" : "default"}
-                            />
-                          </Box>
-                          <Box sx={{ height: 4, bgcolor: '#f0f0f0', borderRadius: 2, overflow: 'hidden' }}>
-                            <Box 
-                              sx={{ 
-                                height: '100%', 
-                                width: `${(completedCount / classItem.count) * 100}%`,
-                                bgcolor: completedCount === classItem.count ? '#4caf50' : '#06c',
-                                borderRadius: 2
-                              }} 
-                            />
-                          </Box>
-                        </Box>
-                      </Button>
-                    </Grid>
-                  );
-                })}
-              </Grid>
-            </AccordionDetails>
-          </Accordion>
-          
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography sx={{ fontWeight: 500 }}>小班 ({smallClasses.length}个班)</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Grid container spacing={2}>
-                {smallClasses.map((classItem) => {
-                  const completedCount = getCompletedCount(classItem.id);
-                  return (
-                    <Grid item xs={12} sm={6} md={4} key={classItem.id}>
-                      <Button
-                        component={Link}
-                        to={`/class-students/${classItem.id}`}
-                        variant="outlined"
-                        fullWidth
-                        sx={{
-                          p: 2,
-                          borderRadius: '12px',
-                          borderColor: 'rgba(0, 0, 0, 0.1)',
-                          color: '#1d1d1f',
-                          justifyContent: 'flex-start',
-                          textAlign: 'left',
-                          '&:hover': {
-                            borderColor: '#06c',
-                            bgcolor: 'rgba(0, 122, 255, 0.05)',
-                          },
-                        }}
-                      >
-                        <Box sx={{ width: '100%' }}>
-                          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                            <Typography variant="h6" sx={{ fontSize: '16px', fontWeight: 500 }}>
-                              {classItem.name}
-                            </Typography>
-                            <Chip 
-                              label={`${completedCount}/${classItem.count}`} 
-                              size="small" 
-                              color={completedCount === classItem.count ? "success" : "default"}
-                            />
-                          </Box>
-                          <Box sx={{ height: 4, bgcolor: '#f0f0f0', borderRadius: 2, overflow: 'hidden' }}>
-                            <Box 
-                              sx={{ 
-                                height: '100%', 
-                                width: `${(completedCount / classItem.count) * 100}%`,
-                                bgcolor: completedCount === classItem.count ? '#4caf50' : '#06c',
-                                borderRadius: 2
-                              }} 
-                            />
-                          </Box>
-                        </Box>
-                      </Button>
-                    </Grid>
-                  );
-                })}
-              </Grid>
-            </AccordionDetails>
-          </Accordion>
-          
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography sx={{ fontWeight: 500 }}>中班 ({mediumClasses.length}个班)</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Grid container spacing={2}>
-                {mediumClasses.map((classItem) => {
-                  const completedCount = getCompletedCount(classItem.id);
-                  return (
-                    <Grid item xs={12} sm={6} md={4} key={classItem.id}>
-                      <Button
-                        component={Link}
-                        to={`/class-students/${classItem.id}`}
-                        variant="outlined"
-                        fullWidth
-                        sx={{
-                          p: 2,
-                          borderRadius: '12px',
-                          borderColor: 'rgba(0, 0, 0, 0.1)',
-                          color: '#1d1d1f',
-                          justifyContent: 'flex-start',
-                          textAlign: 'left',
-                          '&:hover': {
-                            borderColor: '#06c',
-                            bgcolor: 'rgba(0, 122, 255, 0.05)',
-                          },
-                        }}
-                      >
-                        <Box sx={{ width: '100%' }}>
-                          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                            <Typography variant="h6" sx={{ fontSize: '16px', fontWeight: 500 }}>
-                              {classItem.name}
-                            </Typography>
-                            <Chip 
-                              label={`${completedCount}/${classItem.count}`} 
-                              size="small" 
-                              color={completedCount === classItem.count ? "success" : "default"}
-                            />
-                          </Box>
-                          <Box sx={{ height: 4, bgcolor: '#f0f0f0', borderRadius: 2, overflow: 'hidden' }}>
-                            <Box 
-                              sx={{ 
-                                height: '100%', 
-                                width: `${(completedCount / classItem.count) * 100}%`,
-                                bgcolor: completedCount === classItem.count ? '#4caf50' : '#06c',
-                                borderRadius: 2
-                              }} 
-                            />
-                          </Box>
-                        </Box>
-                      </Button>
-                    </Grid>
-                  );
-                })}
-              </Grid>
-            </AccordionDetails>
-          </Accordion>
-          
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography sx={{ fontWeight: 500 }}>大班 ({largeClasses.length}个班)</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Grid container spacing={2}>
-                {largeClasses.map((classItem) => {
-                  const completedCount = getCompletedCount(classItem.id);
-                  return (
-                    <Grid item xs={12} sm={6} md={4} key={classItem.id}>
-                      <Button
-                        component={Link}
-                        to={`/class-students/${classItem.id}`}
-                        variant="outlined"
-                        fullWidth
-                        sx={{
-                          p: 2,
-                          borderRadius: '12px',
-                          borderColor: 'rgba(0, 0, 0, 0.1)',
-                          color: '#1d1d1f',
-                          justifyContent: 'flex-start',
-                          textAlign: 'left',
-                          '&:hover': {
-                            borderColor: '#06c',
-                            bgcolor: 'rgba(0, 122, 255, 0.05)',
-                          },
-                        }}
-                      >
-                        <Box sx={{ width: '100%' }}>
-                          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                            <Typography variant="h6" sx={{ fontSize: '16px', fontWeight: 500 }}>
-                              {classItem.name}
-                            </Typography>
-                            <Chip 
-                              label={`${completedCount}/${classItem.count}`} 
-                              size="small" 
-                              color={completedCount === classItem.count ? "success" : "default"}
-                            />
-                          </Box>
-                          <Box sx={{ height: 4, bgcolor: '#f0f0f0', borderRadius: 2, overflow: 'hidden' }}>
-                            <Box 
-                              sx={{ 
-                                height: '100%', 
-                                width: `${(completedCount / classItem.count) * 100}%`,
-                                bgcolor: completedCount === classItem.count ? '#4caf50' : '#06c',
-                                borderRadius: 2
-                              }} 
-                            />
-                          </Box>
-                        </Box>
-                      </Button>
-                    </Grid>
-                  );
-                })}
-              </Grid>
-            </AccordionDetails>
-          </Accordion>
-        </Box>
-        
-        <Box mt={4} display="flex" justifyContent="center">
-          <Button
-            component={Link}
-            to="/"
+        <TextField
+          type="date"
+          value={selectedDate}
+          onChange={(e) => setSelectedDate(e.target.value)}
+          fullWidth
+          size="small"
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              borderRadius: '8px',
+            }
+          }}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+      </Box>
+
+      {/* 班级列表 */}
+      <Box sx={{ 
+        flex: 1, 
+        overflow: 'auto', 
+        px: 2,
+        py: 1
+      }}>
+        <Accordion 
+          defaultExpanded 
+          elevation={0}
+          sx={{
+            '&:before': {
+              display: 'none',
+            },
+            borderRadius: '12px',
+            mb: 1,
+            '& .MuiAccordionSummary-root': {
+              borderRadius: '12px',
+              '&.Mui-expanded': {
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
+              }
+            }
+          }}
+        >
+          <AccordionSummary 
+            expandIcon={<ExpandMoreIcon />}
             sx={{
-              color: '#06c',
-              '&:hover': {
-                bgcolor: 'rgba(0, 122, 255, 0.05)',
-              },
+              bgcolor: 'rgba(26, 115, 232, 0.04)',
             }}
           >
-            返回首页
-          </Button>
-        </Box>
-      </Paper>
-    </Container>
+            <Typography sx={{ fontWeight: 500, color: '#1a73e8' }}>
+              小小班 ({tinyClasses.length}个班)
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ p: 1 }}>
+            {tinyClasses.map((classItem) => {
+              const completedCount = getCompletedCount(classItem.id);
+              return (
+                <Button
+                  key={classItem.id}
+                  component={Link}
+                  to={`/class-students/${classItem.id}`}
+                  fullWidth
+                  sx={{
+                    p: 2,
+                    mb: 1,
+                    borderRadius: '12px',
+                    bgcolor: '#fff',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
+                    color: '#1d1d1f',
+                    justifyContent: 'flex-start',
+                    textAlign: 'left',
+                    textTransform: 'none',
+                    '&:hover': {
+                      bgcolor: '#fff',
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+                    },
+                  }}
+                >
+                  <Box sx={{ width: '100%' }}>
+                    <Box sx={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between', 
+                      alignItems: 'center', 
+                      mb: 1 
+                    }}>
+                      <Typography sx={{ 
+                        fontSize: '16px', 
+                        fontWeight: 500 
+                      }}>
+                        {classItem.name}
+                      </Typography>
+                      <Chip 
+                        label={`${completedCount}/${classItem.count}`} 
+                        size="small" 
+                        color={completedCount === classItem.count ? "success" : "default"}
+                        sx={{ height: '24px' }}
+                      />
+                    </Box>
+                    <Box sx={{ 
+                      height: 4, 
+                      bgcolor: 'rgba(0,0,0,0.08)', 
+                      borderRadius: 2, 
+                      overflow: 'hidden' 
+                    }}>
+                      <Box 
+                        sx={{ 
+                          height: '100%', 
+                          width: `${(completedCount / classItem.count) * 100}%`,
+                          bgcolor: completedCount === classItem.count ? '#4caf50' : '#1a73e8',
+                          borderRadius: 2
+                        }} 
+                      />
+                    </Box>
+                  </Box>
+                </Button>
+              );
+            })}
+          </AccordionDetails>
+        </Accordion>
+
+        <Accordion 
+          defaultExpanded 
+          elevation={0}
+          sx={{
+            '&:before': {
+              display: 'none',
+            },
+            borderRadius: '12px',
+            mb: 1,
+            '& .MuiAccordionSummary-root': {
+              borderRadius: '12px',
+              '&.Mui-expanded': {
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
+              }
+            }
+          }}
+        >
+          <AccordionSummary 
+            expandIcon={<ExpandMoreIcon />}
+            sx={{
+              bgcolor: 'rgba(26, 115, 232, 0.04)',
+            }}
+          >
+            <Typography sx={{ fontWeight: 500, color: '#1a73e8' }}>
+              小班 ({smallClasses.length}个班)
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ p: 1 }}>
+            {smallClasses.map((classItem) => {
+              const completedCount = getCompletedCount(classItem.id);
+              return (
+                <Button
+                  key={classItem.id}
+                  component={Link}
+                  to={`/class-students/${classItem.id}`}
+                  fullWidth
+                  sx={{
+                    p: 2,
+                    mb: 1,
+                    borderRadius: '12px',
+                    bgcolor: '#fff',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
+                    color: '#1d1d1f',
+                    justifyContent: 'flex-start',
+                    textAlign: 'left',
+                    textTransform: 'none',
+                    '&:hover': {
+                      bgcolor: '#fff',
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+                    },
+                  }}
+                >
+                  <Box sx={{ width: '100%' }}>
+                    <Box sx={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between', 
+                      alignItems: 'center', 
+                      mb: 1 
+                    }}>
+                      <Typography sx={{ 
+                        fontSize: '16px', 
+                        fontWeight: 500 
+                      }}>
+                        {classItem.name}
+                      </Typography>
+                      <Chip 
+                        label={`${completedCount}/${classItem.count}`} 
+                        size="small" 
+                        color={completedCount === classItem.count ? "success" : "default"}
+                        sx={{ height: '24px' }}
+                      />
+                    </Box>
+                    <Box sx={{ 
+                      height: 4, 
+                      bgcolor: 'rgba(0,0,0,0.08)', 
+                      borderRadius: 2, 
+                      overflow: 'hidden' 
+                    }}>
+                      <Box 
+                        sx={{ 
+                          height: '100%', 
+                          width: `${(completedCount / classItem.count) * 100}%`,
+                          bgcolor: completedCount === classItem.count ? '#4caf50' : '#1a73e8',
+                          borderRadius: 2
+                        }} 
+                      />
+                    </Box>
+                  </Box>
+                </Button>
+              );
+            })}
+          </AccordionDetails>
+        </Accordion>
+
+        <Accordion 
+          defaultExpanded 
+          elevation={0}
+          sx={{
+            '&:before': {
+              display: 'none',
+            },
+            borderRadius: '12px',
+            mb: 1,
+            '& .MuiAccordionSummary-root': {
+              borderRadius: '12px',
+              '&.Mui-expanded': {
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
+              }
+            }
+          }}
+        >
+          <AccordionSummary 
+            expandIcon={<ExpandMoreIcon />}
+            sx={{
+              bgcolor: 'rgba(26, 115, 232, 0.04)',
+            }}
+          >
+            <Typography sx={{ fontWeight: 500, color: '#1a73e8' }}>
+              中班 ({mediumClasses.length}个班)
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ p: 1 }}>
+            {mediumClasses.map((classItem) => {
+              const completedCount = getCompletedCount(classItem.id);
+              return (
+                <Button
+                  key={classItem.id}
+                  component={Link}
+                  to={`/class-students/${classItem.id}`}
+                  fullWidth
+                  sx={{
+                    p: 2,
+                    mb: 1,
+                    borderRadius: '12px',
+                    bgcolor: '#fff',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
+                    color: '#1d1d1f',
+                    justifyContent: 'flex-start',
+                    textAlign: 'left',
+                    textTransform: 'none',
+                    '&:hover': {
+                      bgcolor: '#fff',
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+                    },
+                  }}
+                >
+                  <Box sx={{ width: '100%' }}>
+                    <Box sx={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between', 
+                      alignItems: 'center', 
+                      mb: 1 
+                    }}>
+                      <Typography sx={{ 
+                        fontSize: '16px', 
+                        fontWeight: 500 
+                      }}>
+                        {classItem.name}
+                      </Typography>
+                      <Chip 
+                        label={`${completedCount}/${classItem.count}`} 
+                        size="small" 
+                        color={completedCount === classItem.count ? "success" : "default"}
+                        sx={{ height: '24px' }}
+                      />
+                    </Box>
+                    <Box sx={{ 
+                      height: 4, 
+                      bgcolor: 'rgba(0,0,0,0.08)', 
+                      borderRadius: 2, 
+                      overflow: 'hidden' 
+                    }}>
+                      <Box 
+                        sx={{ 
+                          height: '100%', 
+                          width: `${(completedCount / classItem.count) * 100}%`,
+                          bgcolor: completedCount === classItem.count ? '#4caf50' : '#1a73e8',
+                          borderRadius: 2
+                        }} 
+                      />
+                    </Box>
+                  </Box>
+                </Button>
+              );
+            })}
+          </AccordionDetails>
+        </Accordion>
+
+        <Accordion 
+          defaultExpanded 
+          elevation={0}
+          sx={{
+            '&:before': {
+              display: 'none',
+            },
+            borderRadius: '12px',
+            mb: 1,
+            '& .MuiAccordionSummary-root': {
+              borderRadius: '12px',
+              '&.Mui-expanded': {
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
+              }
+            }
+          }}
+        >
+          <AccordionSummary 
+            expandIcon={<ExpandMoreIcon />}
+            sx={{
+              bgcolor: 'rgba(26, 115, 232, 0.04)',
+            }}
+          >
+            <Typography sx={{ fontWeight: 500, color: '#1a73e8' }}>
+              大班 ({largeClasses.length}个班)
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ p: 1 }}>
+            {largeClasses.map((classItem) => {
+              const completedCount = getCompletedCount(classItem.id);
+              return (
+                <Button
+                  key={classItem.id}
+                  component={Link}
+                  to={`/class-students/${classItem.id}`}
+                  fullWidth
+                  sx={{
+                    p: 2,
+                    mb: 1,
+                    borderRadius: '12px',
+                    bgcolor: '#fff',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
+                    color: '#1d1d1f',
+                    justifyContent: 'flex-start',
+                    textAlign: 'left',
+                    textTransform: 'none',
+                    '&:hover': {
+                      bgcolor: '#fff',
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+                    },
+                  }}
+                >
+                  <Box sx={{ width: '100%' }}>
+                    <Box sx={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between', 
+                      alignItems: 'center', 
+                      mb: 1 
+                    }}>
+                      <Typography sx={{ 
+                        fontSize: '16px', 
+                        fontWeight: 500 
+                      }}>
+                        {classItem.name}
+                      </Typography>
+                      <Chip 
+                        label={`${completedCount}/${classItem.count}`} 
+                        size="small" 
+                        color={completedCount === classItem.count ? "success" : "default"}
+                        sx={{ height: '24px' }}
+                      />
+                    </Box>
+                    <Box sx={{ 
+                      height: 4, 
+                      bgcolor: 'rgba(0,0,0,0.08)', 
+                      borderRadius: 2, 
+                      overflow: 'hidden' 
+                    }}>
+                      <Box 
+                        sx={{ 
+                          height: '100%', 
+                          width: `${(completedCount / classItem.count) * 100}%`,
+                          bgcolor: completedCount === classItem.count ? '#4caf50' : '#1a73e8',
+                          borderRadius: 2
+                        }} 
+                      />
+                    </Box>
+                  </Box>
+                </Button>
+              );
+            })}
+          </AccordionDetails>
+        </Accordion>
+      </Box>
+
+      {/* 底部导航栏 */}
+      <Box sx={{ 
+        p: 2, 
+        borderTop: '1px solid rgba(0,0,0,0.12)',
+        bgcolor: '#fff'
+      }}>
+        <Button
+          component={Link}
+          to="/"
+          fullWidth
+          variant="text"
+          sx={{
+            color: '#1a73e8',
+            textTransform: 'none',
+            '&:hover': {
+              bgcolor: 'rgba(26, 115, 232, 0.04)',
+            },
+          }}
+        >
+          返回首页
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
@@ -375,7 +537,7 @@ const StudentList: React.FC<{ classId?: string }> = ({ classId = "6" }) => {
       const completed = Math.random() > 0.3; // 70%的学生已完成
       students.push({
         id: i,
-        name: `学生${i}`,
+        name: i === 1 ? "黄小东" : `学生${i}`,
         className: className,
         completed: completed
       });
@@ -387,172 +549,255 @@ const StudentList: React.FC<{ classId?: string }> = ({ classId = "6" }) => {
   const students = generateStudents(classInfo ? classInfo.count : 20, classId);
 
   return (
-    <Container maxWidth="sm" sx={{ py: 4 }}>
-      <Paper 
-        elevation={0} 
-        sx={{ 
-          p: 3, 
-          my: 3,
-          bgcolor: 'rgba(255, 255, 255, 0.9)',
-          borderRadius: '16px',
-          backdropFilter: 'blur(10px)',
-          boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.07)'
-        }}
-      >
+    <Box sx={{ 
+      height: '100vh', 
+      display: 'flex', 
+      flexDirection: 'column',
+      overflow: 'hidden'
+    }}>
+      {/* 顶部栏 */}
+      <Box sx={{ 
+        p: 2, 
+        borderBottom: '1px solid rgba(0,0,0,0.12)',
+        bgcolor: '#fff',
+        position: 'sticky',
+        top: 0,
+        zIndex: 1000
+      }}>
         <Typography 
-          variant="h4" 
-          align="center" 
+          variant="h6" 
           sx={{ 
-            mb: 2, 
             color: '#1d1d1f', 
-            fontWeight: 600,
-            fontSize: '24px',
-            letterSpacing: '-0.5px'
+            fontWeight: 500,
+            fontSize: '20px',
+            mb: 1
           }}
         >
           {classInfo ? classInfo.name : '未知班级'}学生列表
         </Typography>
         
         <Typography 
-          variant="subtitle1" 
-          align="center" 
+          variant="body2"
           sx={{ 
-            mb: 4, 
             color: '#86868b',
             fontSize: '14px',
           }}
         >
           {new Date().toLocaleDateString('zh-CN')} · 共{students.length}名学生 · 已完成{students.filter(s => s.completed).length}名
         </Typography>
-        
-        <Box sx={{ mb: 2 }}>
-          <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600, color: '#1d1d1f' }}>
-            未完成 ({students.filter(s => !s.completed).length})
-          </Typography>
-          <Grid container spacing={2}>
-            {students.filter(s => !s.completed).map((student) => (
-              <Grid item xs={12} sm={6} key={student.id}>
-                <Button
-                  component={Link}
-                  to={student.id === 1 ? "/teacher-form" : "#"}
-                  variant="outlined"
-                  fullWidth
-                  sx={{
-                    p: 2,
-                    borderRadius: '12px',
-                    borderColor: 'rgba(0, 0, 0, 0.1)',
-                    color: '#1d1d1f',
-                    justifyContent: 'flex-start',
-                    textAlign: 'left',
-                    '&:hover': {
-                      borderColor: '#06c',
-                      bgcolor: 'rgba(0, 122, 255, 0.05)',
-                    },
-                  }}
-                >
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                    <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                      {student.name}
-                    </Typography>
-                    <Chip label="未填写" size="small" color="warning" />
-                  </Box>
-                </Button>
-              </Grid>
-            ))}
-          </Grid>
+      </Box>
+
+      {/* 学生列表 */}
+      <Box sx={{ 
+        flex: 1, 
+        overflow: 'auto',
+        px: 2,
+        py: 1
+      }}>
+        {/* 未完成列表 */}
+        <Typography 
+          variant="subtitle2" 
+          sx={{ 
+            mb: 1, 
+            fontWeight: 500, 
+            color: '#1d1d1f',
+            fontSize: '14px'
+          }}
+        >
+          未完成 ({students.filter(s => !s.completed).length})
+        </Typography>
+        <Box sx={{ mb: 3 }}>
+          {students.filter(s => !s.completed).map((student) => (
+            <Button
+              key={student.id}
+              component={Link}
+              to={student.id === 1 ? "/teacher-form" : "#"}
+              fullWidth
+              sx={{
+                p: 2,
+                mb: 1,
+                borderRadius: '12px',
+                bgcolor: '#fff',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
+                color: '#1d1d1f',
+                justifyContent: 'flex-start',
+                textAlign: 'left',
+                textTransform: 'none',
+                '&:hover': {
+                  bgcolor: '#fff',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+                },
+              }}
+            >
+              <Box sx={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                width: '100%' 
+              }}>
+                <Typography sx={{ fontWeight: 500 }}>
+                  {student.name}
+                </Typography>
+                <Chip 
+                  label="未填写" 
+                  size="small" 
+                  sx={{ 
+                    bgcolor: 'rgba(255, 171, 0, 0.08)',
+                    color: '#B76E00',
+                    height: '24px',
+                    '& .MuiChip-label': {
+                      px: 1,
+                    }
+                  }} 
+                />
+              </Box>
+            </Button>
+          ))}
         </Box>
-        
-        <Divider sx={{ my: 3 }} />
-        
-        <Box sx={{ mb: 2 }}>
-          <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600, color: '#1d1d1f' }}>
-            已完成 ({students.filter(s => s.completed).length})
-          </Typography>
-          <Grid container spacing={2}>
-            {students.filter(s => s.completed).map((student) => (
-              <Grid item xs={12} sm={6} key={student.id}>
-                <Button
-                  component={Link}
-                  to={student.id === 1 ? "/teacher-form" : "#"}
-                  variant="outlined"
-                  fullWidth
-                  sx={{
-                    p: 2,
-                    borderRadius: '12px',
-                    borderColor: 'rgba(0, 0, 0, 0.1)',
-                    color: '#1d1d1f',
-                    justifyContent: 'flex-start',
-                    textAlign: 'left',
-                    '&:hover': {
-                      borderColor: '#06c',
-                      bgcolor: 'rgba(0, 122, 255, 0.05)',
-                    },
-                  }}
-                >
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                    <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                      {student.name}
-                    </Typography>
-                    <Chip label="已填写" size="small" color="success" />
-                  </Box>
-                </Button>
-              </Grid>
-            ))}
-          </Grid>
+
+        <Divider sx={{ my: 2 }} />
+
+        {/* 已完成列表 */}
+        <Typography 
+          variant="subtitle2" 
+          sx={{ 
+            mb: 1, 
+            fontWeight: 500, 
+            color: '#1d1d1f',
+            fontSize: '14px'
+          }}
+        >
+          已完成 ({students.filter(s => s.completed).length})
+        </Typography>
+        <Box>
+          {students.filter(s => s.completed).map((student) => (
+            <Button
+              key={student.id}
+              component={Link}
+              to={student.id === 1 ? "/teacher-form" : "#"}
+              fullWidth
+              sx={{
+                p: 2,
+                mb: 1,
+                borderRadius: '12px',
+                bgcolor: '#fff',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
+                color: '#1d1d1f',
+                justifyContent: 'flex-start',
+                textAlign: 'left',
+                textTransform: 'none',
+                '&:hover': {
+                  bgcolor: '#fff',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+                },
+              }}
+            >
+              <Box sx={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                width: '100%' 
+              }}>
+                <Typography sx={{ fontWeight: 500 }}>
+                  {student.name}
+                </Typography>
+                <Chip 
+                  label="已填写" 
+                  size="small" 
+                  sx={{ 
+                    bgcolor: 'rgba(76, 175, 80, 0.08)',
+                    color: '#1B5E20',
+                    height: '24px',
+                    '& .MuiChip-label': {
+                      px: 1,
+                    }
+                  }} 
+                />
+              </Box>
+            </Button>
+          ))}
         </Box>
-        
-        <Box mt={4} display="flex" justifyContent="center">
-          <Button
-            component={Link}
-            to="/teacher"
-            sx={{
-              color: '#06c',
-              '&:hover': {
-                bgcolor: 'rgba(0, 122, 255, 0.05)',
-              },
-            }}
-          >
-            返回班级列表
-          </Button>
-        </Box>
-      </Paper>
-    </Container>
+      </Box>
+
+      {/* 底部导航栏 */}
+      <Box sx={{ 
+        p: 2, 
+        borderTop: '1px solid rgba(0,0,0,0.12)',
+        bgcolor: '#fff'
+      }}>
+        <Button
+          component={Link}
+          to="/teacher"
+          fullWidth
+          variant="text"
+          sx={{
+            color: '#1a73e8',
+            textTransform: 'none',
+            '&:hover': {
+              bgcolor: 'rgba(26, 115, 232, 0.04)',
+            },
+          }}
+        >
+          返回班级列表
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
 const App: React.FC = () => {
   return (
     <Router>
-      <Box sx={{ minHeight: '100vh', bgcolor: '#f5f5f7' }}>
+      <Box sx={{ 
+        minHeight: '100vh', 
+        bgcolor: '#f5f5f7',
+        maxWidth: '390px', // iPhone 14 Pro 宽度
+        margin: '0 auto',
+        boxShadow: '0 0 10px rgba(0,0,0,0.1)',
+        position: 'relative'
+      }}>
         <Routes>
           <Route path="/" element={
-            <Container maxWidth="sm" sx={{ py: 4 }}>
-              <Box sx={{ textAlign: 'center', mb: 4 }}>
+            <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+              <Box sx={{ 
+                p: 2, 
+                textAlign: 'center', 
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center'
+              }}>
                 <Typography 
                   variant="h4" 
                   sx={{ 
                     color: '#1d1d1f',
-                    fontSize: '28px',
+                    fontSize: '24px',
                     fontWeight: 600,
-                    mb: 3
+                    mb: 4
                   }}
                 >
                   幼儿园日报系统
                 </Typography>
-                <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
+                <Box sx={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  gap: 2,
+                  px: 2
+                }}>
                   <Button 
                     component={Link} 
                     to="/teacher" 
                     variant="contained"
+                    fullWidth
                     sx={{
-                      bgcolor: '#06c',
+                      bgcolor: '#1a73e8',
                       fontSize: '16px',
                       fontWeight: 500,
-                      borderRadius: '12px',
-                      px: 4,
+                      borderRadius: '16px',
                       py: 1.5,
+                      textTransform: 'none',
                       '&:hover': {
-                        bgcolor: '#0055b3'
+                        bgcolor: '#1557b0'
                       }
                     }}
                   >
@@ -561,16 +806,19 @@ const App: React.FC = () => {
                   <Button 
                     component={Link} 
                     to="/parent" 
-                    variant="contained"
+                    variant="outlined"
+                    fullWidth
                     sx={{
-                      bgcolor: '#06c',
+                      borderColor: '#1a73e8',
+                      color: '#1a73e8',
                       fontSize: '16px',
                       fontWeight: 500,
-                      borderRadius: '12px',
-                      px: 4,
+                      borderRadius: '16px',
                       py: 1.5,
+                      textTransform: 'none',
                       '&:hover': {
-                        bgcolor: '#0055b3'
+                        borderColor: '#1557b0',
+                        bgcolor: 'rgba(26, 115, 232, 0.04)'
                       }
                     }}
                   >
@@ -578,7 +826,7 @@ const App: React.FC = () => {
                   </Button>
                 </Box>
               </Box>
-            </Container>
+            </Box>
           } />
           <Route path="/teacher" element={<ClassList />} />
           <Route path="/class-students/:classId" element={<StudentList />} />
