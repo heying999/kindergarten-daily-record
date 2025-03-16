@@ -750,79 +750,186 @@ const App: React.FC = () => {
     <Router>
       <Box sx={{ 
         minHeight: '100vh', 
-        bgcolor: '#f5f5f7',
-        maxWidth: '390px', // iPhone 14 Pro 宽度
+        bgcolor: '#ffffff',
+        maxWidth: '390px',
         margin: '0 auto',
         boxShadow: '0 0 10px rgba(0,0,0,0.1)',
         position: 'relative'
       }}>
         <Routes>
           <Route path="/" element={
-            <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{ 
+              height: '100vh', 
+              display: 'flex', 
+              flexDirection: 'column',
+              p: 0,
+              background: '#ffffff'
+            }}>
               <Box sx={{ 
-                p: 2, 
-                textAlign: 'center', 
                 flex: 1,
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'center'
+                pt: '25vh',
+                px: 4,
+                gap: 6
               }}>
-                <Typography 
-                  variant="h4" 
-                  sx={{ 
-                    color: '#1d1d1f',
-                    fontSize: '24px',
-                    fontWeight: 600,
-                    mb: 4
-                  }}
-                >
-                  幼儿园日报系统
-                </Typography>
+                {/* Logo和标题区域 */}
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography 
+                    variant="h4" 
+                    sx={{ 
+                      color: '#000000',
+                      fontSize: '56px',
+                      fontWeight: 700,
+                      mb: 1,
+                      fontFamily: "'Nunito', sans-serif",
+                    }}
+                  >
+                    幼苗🌱日记
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      color: 'rgba(0, 0, 0, 0.6)',
+                      fontSize: '16px',
+                      fontWeight: 500,
+                      mb: 3
+                    }}
+                  >
+                    记录每一天的成长点滴
+                  </Typography>
+                </Box>
+
+                {/* 入口卡片区域 */}
                 <Box sx={{ 
                   display: 'flex', 
                   flexDirection: 'column', 
-                  gap: 2,
-                  px: 2
+                  gap: 3
                 }}>
                   <Button 
                     component={Link} 
                     to="/teacher" 
-                    variant="contained"
-                    fullWidth
                     sx={{
-                      bgcolor: '#1a73e8',
-                      fontSize: '16px',
-                      fontWeight: 500,
+                      display: 'flex',
+                      alignItems: 'stretch',
+                      bgcolor: '#ffffff',
+                      p: 0,
+                      height: '120px',
                       borderRadius: '16px',
-                      py: 1.5,
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
                       textTransform: 'none',
+                      overflow: 'hidden',
                       '&:hover': {
-                        bgcolor: '#1557b0'
+                        bgcolor: '#f5f5f5',
+                        color: '#000000',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
                       }
                     }}
                   >
-                    老师入口
+                    <Box
+                      component="img"
+                      src="/images/teacher.png"
+                      alt="老师"
+                      sx={{
+                        width: '120px',
+                        height: '120px',
+                        objectFit: 'cover',
+                        borderTopRightRadius: 0,
+                        borderBottomRightRadius: 0,
+                      }}
+                    />
+                    <Box sx={{ 
+                      flex: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'flex-start',
+                      pl: 3
+                    }}>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          color: '#000000',
+                          fontWeight: 600,
+                          fontSize: '20px',
+                          mb: 1
+                        }}
+                      >
+                        我是老师
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: 'rgba(0, 0, 0, 0.6)',
+                          fontSize: '14px'
+                        }}
+                      >
+                        记录学生的每日表现
+                      </Typography>
+                    </Box>
                   </Button>
+
                   <Button 
                     component={Link} 
                     to="/parent" 
-                    variant="outlined"
-                    fullWidth
                     sx={{
-                      borderColor: '#1a73e8',
-                      color: '#1a73e8',
-                      fontSize: '16px',
-                      fontWeight: 500,
+                      display: 'flex',
+                      alignItems: 'stretch',
+                      bgcolor: '#ffffff',
+                      p: 0,
+                      height: '120px',
                       borderRadius: '16px',
-                      py: 1.5,
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
                       textTransform: 'none',
+                      overflow: 'hidden',
                       '&:hover': {
-                        borderColor: '#1557b0',
-                        bgcolor: 'rgba(26, 115, 232, 0.04)'
+                        bgcolor: '#f5f5f5',
+                        color: '#000000',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
                       }
                     }}
                   >
-                    家长查看
+                    <Box
+                      component="img"
+                      src="/images/parent.png"
+                      alt="家长"
+                      sx={{
+                        width: '120px',
+                        height: '120px',
+                        objectFit: 'cover',
+                        borderTopRightRadius: 0,
+                        borderBottomRightRadius: 0,
+                      }}
+                    />
+                    <Box sx={{ 
+                      flex: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'flex-start',
+                      pl: 3
+                    }}>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          color: '#000000',
+                          fontWeight: 600,
+                          fontSize: '20px',
+                          mb: 1
+                        }}
+                      >
+                        我是家长
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: 'rgba(0, 0, 0, 0.6)',
+                          fontSize: '14px'
+                        }}
+                      >
+                        查看孩子的每日表现
+                      </Typography>
+                    </Box>
                   </Button>
                 </Box>
               </Box>
